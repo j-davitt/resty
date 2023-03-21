@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 
-function Header(props) {
+const Header = (props) => {
   return (
     <header>
       <h1>RESTy</h1>
