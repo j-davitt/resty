@@ -6,7 +6,7 @@ const Form = (props) => {
 
   const [url, setUrl] = useState('');
   const [method, setMethod] = useState('GET');
-  const [json, setJson] = useState('');
+  const [data, setData] = useState('');
 
 
   const handleClick = (e) => {
@@ -16,9 +16,9 @@ const Form = (props) => {
   const handleSubmit = e => {
     e.preventDefault();
     const formData = {
-      method: method,
-      url: url,
-      json: json,
+      method,
+      url,
+      data,
     };
     props.handleApiCall(formData);
   }
@@ -38,8 +38,8 @@ const Form = (props) => {
           <span id="put" data-testid="form-put" onClick={handleClick} style={{ backgroundColor: method === "PUT" ? "orange" : "grey" }}>PUT</span>
           <span id="delete" data-testid="form-delete" onClick={handleClick} style={{ backgroundColor: method === "DELETE" ? "red" : "grey" }}>DELETE</span>
         </label>
-        {method === "POST" && <textarea onChange={(e) => setJson(e.target.value)}/>}
-        {method === "PUT" && <textarea onChange={(e) => setJson(e.target.value)}/>}
+        {method === "POST" && <textarea onChange={(e) => setData(e.target.value)}/>}
+        {method === "PUT" && <textarea onChange={(e) => setData(e.target.value)}/>}
       </form>
     </>
   );
