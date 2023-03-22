@@ -1,10 +1,22 @@
 import React from 'react';
+import JSONPretty from 'react-json-pretty';
+import './style.scss';
 
-function Results(props) {
+// import 'react-json-pretty/themes/1337.css';
+
+const Results = (props) => {
+
+  const { data } = props;
+
 
   return (
     <section>
-      <pre>{props.data ? JSON.stringify(props.data, undefined, 2) : null}</pre>
+      {
+        props.loading
+          ? <div>LOADING...</div>
+          : <div data-testid="result-div">{props.data ? <JSONPretty id="json-pretty" data={data}/> : null}</div>
+      }
+
     </section>
   );
 
