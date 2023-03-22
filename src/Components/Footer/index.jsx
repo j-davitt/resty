@@ -3,7 +3,7 @@ import './style.scss';
 
 const Footer = (props) => {
 
-  return <footer>&copy; 2018</footer>;
+  return <footer>&copy; Joe Davitt 2023</footer>;
 
 }
 

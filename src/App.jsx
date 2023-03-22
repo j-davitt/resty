@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import './App.scss';
 
@@ -16,37 +17,44 @@ const App = () => {
   const [data, setData] = useState(null);
   const [requestParams, setRequestParams] = useState({});
   const [loading, setLoading] = useState(false);
+  // const [request, setRequest] = useState(null);
+
+  useEffect(() => {
+    console.log('An event occurred');
+  });
+
+  useEffect(() => {
+    async function getData() {
+      console.log('This should happen when requestParams changes!');
+      let response = await axios(requestParams);
+      setData(response.data);
+    }
+    getData();
+  }, [requestParams]);
+
 
 
   const callApi = (requestParams) => {
-    // mock output
     setLoading(true);
+
     setTimeout(() => {
-      const data = {
-        count: 2,
-        results: [
-          {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-          {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-        ],
-      };
-      setData(data);
       setRequestParams(requestParams);
       setLoading(false);
     }, 1000);
   }
 
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: {requestParams.method}</div>
-        <div>URL: {requestParams.url}</div>
-        <div>JSON: {requestParams.json}</div>
-        <Form handleApiCall={callApi} />
-        <Results data={data} loading={loading} />
-        <Footer />
-      </React.Fragment>
-    );
-  
+  return (
+    <React.Fragment>
+      <Header />
+      <div>Request Method: {requestParams.method}</div>
+      <div>URL: {requestParams.url}</div>
+      <div>Body: {requestParams.body}</div>
+      <Form handleApiCall={callApi} />
+      <Results data={data} loading={loading} />
+      <Footer />
+    </React.Fragment>
+  );
+
 }
 
 export default App;
