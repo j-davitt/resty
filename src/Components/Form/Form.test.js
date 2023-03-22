@@ -17,7 +17,11 @@ describe('Welcome component', () => {
 
     fireEvent.click(post);
 
-    // expect(post).toHaveStyle("backgroundColor: orange");
+    setTimeout(() => {
+      expect(post).toHaveStyle("backgroundColor: orange");
+    }, 500);
+
+    
   });
   
 });
