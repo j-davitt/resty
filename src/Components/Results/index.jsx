@@ -14,7 +14,7 @@ const Results = (props) => {
       {
         props.loading
           ? <div>LOADING...</div>
-          : <div>{props.data ? <JSONPretty id="json-pretty" data={data}/> : null}</div>
+          : <div data-testid="result-div">{props.data ? <JSONPretty id="json-pretty" data={data}/> : null}</div>
       }
 
     </section>
