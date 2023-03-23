@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -11,6 +11,11 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+
+
+export const requestReducer = (requestParams=initialRequestParams, action) => {
+
+}
 
 const App = () => {
 
