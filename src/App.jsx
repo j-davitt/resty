@@ -12,17 +12,38 @@ import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
 
+export const initialState = {
+  data: null,
+  requestParams: {},
+  loading: false,
+}
 
-export const requestReducer = (requestParams=initialRequestParams, action) => {
-
+export const requestReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'START':
+      return {
+        ...state,
+        loading: true,
+        requestParams: action.payload,
+      }
+    case 'FINISH':
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      }
+    default:
+      return state;
+  }
 }
 
 const App = () => {
 
-  const [data, setData] = useState(null);
-  const [requestParams, setRequestParams] = useState({});
-  const [loading, setLoading] = useState(false);
-  // const [request, setRequest] = useState(null);
+  // const [data, setData] = useState(null);
+  // const [requestParams, setRequestParams] = useState({});
+  // const [loading, setLoading] = useState(false);
+
+  const [state, dispatch] = useReducer(requestReducer, initialState);
 
   useEffect(() => {
     console.log('An event occurred');
@@ -31,31 +52,41 @@ const App = () => {
   useEffect(() => {
     async function getData() {
       console.log('This should happen when requestParams changes!');
-      let response = await axios(requestParams);
-      setData(response.data);
+      let response = await axios(state.requestParams);
+      let action = {
+        type: 'FINISH',
+        payload: response.data,
+      }
+      dispatch(action);
+      // setData(response.data);
     }
     getData();
-  }, [requestParams]);
+  }, [state.requestParams]);
 
 
 
   const callApi = (requestParams) => {
-    setLoading(true);
+    let action = {
+      type: 'START',
+      payload: requestParams
+    }
+    dispatch(action);
+    // setLoading(true);
 
-    setTimeout(() => {
-      setRequestParams(requestParams);
-      setLoading(false);
-    }, 1000);
+    // setTimeout(() => {
+    //   setRequestParams(requestParams);
+    //   // setLoading(false);
+    // }, 1000);
   }
 
   return (
     <React.Fragment>
       <Header />
-      <div>Request Method: {requestParams.method}</div>
-      <div>URL: {requestParams.url}</div>
-      <div>Body: {requestParams.body}</div>
+      <div>Request Method: {state.requestParams.method}</div>
+      <div>URL: {state.requestParams.url}</div>
+      <div>Body: {state.requestParams.body}</div>
       <Form handleApiCall={callApi} />
-      <Results data={data} loading={loading} />
+      <Results data={state.data} loading={state.loading} />
       <Footer />
     </React.Fragment>
   );
