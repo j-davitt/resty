@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -11,11 +11,13 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+import History from './Components/History';
 
 export const initialState = {
   data: null,
   requestParams: {},
   loading: false,
+  history: [],
 }
 
 export const requestReducer = (state = initialState, action) => {
@@ -31,6 +33,12 @@ export const requestReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         data: action.payload,
+        history: [...state.history, {requestParams: {...state.requestParams}, data: action.payload}]
+      }
+    case 'HISTORY':
+      return {
+        ...state,
+        ...state.history[action.payload],
       }
     default:
       return state;
@@ -86,6 +94,7 @@ const App = () => {
       <div>URL: {state.requestParams.url}</div>
       <div>Body: {state.requestParams.body}</div>
       <Form handleApiCall={callApi} />
+      <History history={state.history}/>
       <Results data={state.data} loading={state.loading} />
       <Footer />
     </React.Fragment>
